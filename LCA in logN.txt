@@ -1,0 +1,98 @@
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp> 
+
+using namespace std;
+using namespace __gnu_pbds;
+
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds;
+//A.order_of_key() *A.find_by_order()
+#define int long long
+#define ld long double
+#define pb push_back
+#define rep(i,a,b) for(int i = a; i < b; i++)
+#define sz(v) v.size()
+#define all(x) x.begin(),x.end()
+#define in(v) for(int i = 0; i<v.size(); i++) cin>>v[i];
+#define out(v) for(int i = 0; i<v.size(); i++) cout<<v[i]<<" "; cout<<endl;
+#define ret(v) cout<<v<<"\n"; return
+#define popcount(num) __builtin_popcount(num)
+typedef vector<int> vi;
+typedef pair<int,int> pii;;
+const int MOD = 998244353;
+const int N = 4e5;
+const int LN = 20;
+
+int dp[N+5][LN]; // we are storing ancestors in powers of 2 . 
+vi adj[N+5];
+vi d(N+5);
+void dfs(int u,int p){
+
+  dp[u][0] = p;
+  for(int i = 1; i<LN; ++i){
+    dp[u][i] = dp[dp[u][i-1]][i-1]; 
+    // n + 1 ancestor for us is our nth ancestor ka nth ancestor .ez
+  }
+  for(auto v : adj[u]) if(v != p) {
+    d[v] = d[u] + 1;
+    dfs(v,u);
+  }
+}
+int lca(int u,int v){
+// the idea is to level up the nodes and bring under same subtree
+// then we can exploit the fact that all nodes above and equal to lcas are still
+// valid lcas so the decreasing lengths start to come effect when
+// the 2^i becomes lesser than distance between nodes and root of subtree
+// cool
+  if(d[u]<d[v])
+    swap(v,u);
+
+  int diff = d[u] - d[v];
+  for(int i = 0; i<LN; ++i){
+    if(diff & (1 << i)){
+      u = dp[u][i];
+    }
+  }
+  if(u == v)
+    return u;
+  for(int i = LN - 1; i>=0; --i){
+    if(dp[u][i] != dp[v][i]){
+      u = dp[u][i];
+      v = dp[v][i];
+    }
+  }
+  return dp[u][0];
+}
+
+void solve(){
+int n;
+cin >> n;
+for(int i = 0; i<=n; ++i){
+  adj[i].clear(); 
+}
+for(int i = 0; i < n - 1; ++i){
+  int x,y;
+  cin >> x >> y;
+  adj[x].pb(y);
+  adj[y].pb(x);
+}
+dfs(1,0);
+
+
+
+}
+
+int32_t main() {   
+    ios_base::sync_with_stdio(false);
+    cin.tie(0); cout.tie(0); 
+    int t = 1; 
+    cin>>t;
+    for(int i = 1; i<=t; i++){
+        // cout<<"Case #"<<i<<": ";
+        solve();
+    }
+    return 0;
+}
+
+
+// author : kr25161

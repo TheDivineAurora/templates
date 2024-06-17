@@ -1,0 +1,82 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ld long double
+using pii = pair<ll,ll>;
+const ll INF  = 1e9 + 5;
+
+ll merge(vector<ll>&v,ll low,ll mid,ll high){
+  vector<ll> temp;
+  ll left = low;
+  ll right = mid+1;
+  ll ct = 0;
+  while(left<=mid && right<=high){
+    if(v[left]<=v[right]){
+      temp.push_back(v[left]);
+      left++;
+    }
+    else{
+      if(v[left]>v[right]) ct+= mid-left+1;
+      temp.push_back(v[right]);
+      right++;
+    }
+  }
+ 
+    for(ll i = left; i<=mid; ++i){
+      temp.push_back(v[i]);
+    }
+    for(ll i = right; i<=high; ++i){
+      temp.push_back(v[i]);
+    }
+    for(ll i = low ;  i<=high; ++i){
+      v[i]=temp[i-low];
+    }
+ 
+    return ct;
+}
+ 
+ll mergeSort(vector<ll>&v,ll l , ll r){
+ ll ct = 0;
+ if(l>=r) return 0;
+ ll mid = (l+r)/2;
+ 
+ ct+=mergeSort(v,l,mid);
+ ct+=mergeSort(v,mid+1,r);
+ ct+=merge(v,l,mid,r);
+ return ct;
+}
+void solve(){
+ll n;
+cin>>n;
+vector<ll> v(n);
+for(ll i = 0  ; i<n ; ++i){
+  cin>>v[i];
+}
+
+
+
+
+
+}
+  
+int main(){
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  
+   ll t; cin>>t;
+   for (ll i = 1; i <=t; ++i)
+   {
+      solve();
+   }
+}
+ 
+//
+ 
+// ll n;
+// cin>>n;
+// vector<ll> v(n);
+// for(ll i = 0  ; i<n ; ++i){
+//   cin>>v[i];
+// }
+ 
+//

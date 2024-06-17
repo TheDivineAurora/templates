@@ -1,0 +1,39 @@
+int add(int x, int y)
+{
+    return ((x + y) % MOD + MOD) % MOD;
+}
+
+int mul(int x, int y)
+{
+    return x * 1ll * y % MOD;   
+}
+
+int bin(int x, int y)
+{
+    int z = 1;
+    while(y)
+    {
+        if(y % 2 == 1) z = mul(z, x);
+        x = mul(x, x);
+        y /= 2;
+    }
+    return z;
+}
+
+int inv(int x)
+{
+    return bin(x, MOD - 2);    
+}
+
+int divide(int x, int y)
+{
+    return mul(x, inv(y));
+}
+
+int ncr(int n,int r){
+  int prod = 1;
+  for(int i = 1; i<=r; ++i){
+    prod = mul(prod,divide(n-r+i,i));
+  }
+  return prod;
+}

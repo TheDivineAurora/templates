@@ -1,0 +1,57 @@
+class SegmentTree {
+private:
+    vector<int> tree;
+    int n;
+
+    void build(vector<int>& a) {
+        for (int i = 0; i < n; ++i) {
+            if (i < a.size()) tree[i + n] = a[i];
+            else tree[i + n] = 0;
+        }
+
+        for (int i = n - 1; i > 0; --i) {
+            tree[i] = tree[2 * i] + tree[2 * i + 1];
+        }
+    }
+
+    int query(int node, int nl, int nh, int ql, int qh) {
+        if (ql > nh || qh < nl) return 0;
+        if (ql <= nl && nh <= qh) {
+            return tree[node];
+        }
+
+        int mid = (nl + nh) / 2;
+        return query(2 * node, nl, mid, ql, qh) + query(2 * node + 1, mid + 1, nh, ql, qh);
+    }
+
+    void update(int node, int nl, int nh, int ul, int uh, int val) {
+        if (ul > nh || uh < nl) return;
+        if (nl == nh) {
+            tree[node] += val;
+            return;
+        }
+
+        int mid = (nl + nh) / 2;
+        update(2 * node, nl, mid, ul, uh, val);
+        update(2 * node + 1, mid + 1, nh, ul, uh, val);
+        tree[node] = tree[2 * node] + tree[2 * node + 1];
+    }
+
+public:
+    SegmentTree(vector<int>& a) {
+        n = a.size();
+        while (__builtin_popcount(n) != 1) {
+            n++;
+        }
+        tree.resize(2 * n);
+        build(a);
+    }
+
+    int query(int l, int r) {
+        return query(1, 0, n - 1, l, r);
+    }
+
+    void update(int l, int r, int val) {
+        update(1, 0, n - 1, l, r, val);
+    }
+};

@@ -1,0 +1,63 @@
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp> 
+#include <immintrin.h>
+
+
+using namespace std;
+using namespace __gnu_pbds;
+ 
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds;
+//A.order_of_key() *A.find_by_order()
+#define endl "\n"
+#define int long long
+#define ld long double
+#define pb push_back
+#define rep(i,a,b) for(int i = a; i < b; i++)
+#define sz(v) v.size()
+#define all(x) x.begin(),x.end()
+#define in(v) for(int i = 0; i<v.size(); i++) cin>>v[i];
+#define out(v) for(int i = 0; i<v.size(); i++) cout<<v[i]<<" "; cout<<endl;
+#define ret(v) cout<<v<<"\n"; return
+#define popcount(num) __builtin_popcount(num)
+// __lg for msb
+typedef vector<int> vi;
+typedef pair<int,int> pii;
+// const int MOD = 999999929,999999937;
+const int INF = 1e18;
+const int N = 2e5;
+const int LN = 20;
+const int P = 37;
+const int MOD = 998244353;
+
+int ask(int a,int b){
+  cout<<"? "<<a<<" "<<b<<endl;
+  cout.flush();
+  int x;
+  cin >> x;
+  return x;
+}
+
+void send(int x, int y){
+  cout<<"! "<<x<<" "<<y<<endl;
+  cout.flush();
+}
+
+void solve(){
+
+
+}
+
+
+int32_t main() {   
+    ios_base::sync_with_stdio(false);
+    cin.tie(0); cout.tie(0); 
+    int t = 1; 
+    cin>>t;
+    for(int i = 1; i<=t; i++){
+        // cout<<"Case #"<<i<<": ";
+        solve();
+    }
+    return 0;
+}
+

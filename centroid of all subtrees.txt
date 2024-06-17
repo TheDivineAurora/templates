@@ -1,0 +1,83 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+#define ld long double
+#define pb push_back
+#define rep(i,a,b) for(int i = a; i < b; i++)
+#define sz(v) v.size()
+#define all(x) x.begin(),x.end()
+#define in(v) for(int i = 0; i<v.size(); i++) cin>>v[i];
+#define out(v) for(int i = 0; i<v.size(); i++) cout<<v[i]<<" "; cout<<endl;
+#define ret(v) cout<<v<<"\n"; return
+#define popcount(num) __builtin_popcount(num)
+typedef vector<int> vi;
+typedef pair<int,int> pii;;
+const int MOD = 1e9 + 7;
+const int N = 1e5;
+
+
+void solve(){
+int n, q;
+cin>> n >> q;
+vi adj[n+1],p(n+1,-1);
+for(int i = 2; i<=n; ++i){
+  int x = i , y;
+  cin >> y;
+  adj[y].pb(x); // storring only chilren coz ynot
+  p[x] = y;
+}
+
+vi cen(n+1), worst(n+1,0),wt(n+1,1);
+function<void(int,int)> dfs = [&](int u , int par = -1){
+  // got sizes for all nodes in current subtree rooted at u 
+  for(auto v : adj[u]){
+    dfs(v,u);
+    wt[u] += wt[v];
+    worst[u] = max(worst[u],wt[v]);
+  }
+  
+  // now first we are trying to check is the root node of this subtree
+  // the centroid
+  int req = wt[u]/2;
+  if(worst[u] <= req){
+    cen[u] = u;
+    return;
+  }  // assign centroid if true
+
+  for(auto v : adj[u]){
+    if(wt[v] == worst[u]){
+       int target = cen[v];
+       while(target != u){
+          int worstChildBranch = worst[target];
+          int parentBranch = wt[u] - wt[target];
+          if(max(worstChildBranch, parentBranch) <= req){
+              break;
+          }
+          target = p[target];
+       }
+       cen[u] = target;
+       break;
+    }
+  }
+};
+dfs(1,-1);
+while(q--){
+  int x;
+  cin >> x;
+  cout<<cen[x]<<endl;
+}
+
+}
+int32_t main() {   
+    ios_base::sync_with_stdio(false);
+    cin.tie(0); cout.tie(0); 
+    int t = 1; 
+    // cin>>t;
+    for(int i = 1; i<=t; i++){
+        // cout<<"Case #"<<i<<": ";
+        solve();
+    }
+    return 0;
+}
+ 

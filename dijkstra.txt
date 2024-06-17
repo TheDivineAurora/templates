@@ -1,0 +1,59 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ld long double
+using pii = pair<ll,ll>;
+
+// find nge array
+// use nge indexes , mirror the index value pair llo value index pair
+
+void solve(){
+ll n,m;
+scanf("%lld %lld", &n, &m);
+vector<pii> adj[n];
+for(ll i = 0; i<m; ++i){
+  ll x,y,w;
+  scanf("%lld %lld %lld", &x, &y, &w);
+  x--;y--;
+  adj[x].push_back({y,w});
+}
+priority_queue<pii,vector<pii>,greater<pii>> pq;
+vector<ll> dist(n,LONG_MAX),par(n,0),vis(n,0);
+dist[0] = 0;
+pq.push({0,0});
+while(!pq.empty()){
+  ll distance = pq.top().first;
+  ll prev = pq.top().second;
+  pq.pop();
+  if(vis[prev]==1) continue;
+  vis[prev]=1;
+  for(auto it: adj[prev]){
+    ll next = it.first;
+    ll nextDistance = it.second;
+    if(dist[next] > dist[prev]+nextDistance){
+      dist[next] = dist[prev]+nextDistance;
+      par[next] = prev;
+      pq.push({dist[next],next});
+    }
+  }
+}
+ for(ll i = 0 ; i<n; ++i){
+        printf("%lld ", dist[i]);
+    }
+printf("\n");
+
+
+
+}
+  
+int main(){
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  
+   ll t; t=1;
+   for (ll i = 1; i <=t; ++i)
+   {
+      solve();
+   }
+}
+ 
