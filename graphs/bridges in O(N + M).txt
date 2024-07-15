@@ -1,0 +1,80 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+struct Forest {
+private:
+	vector<vector<int>> adjacency_list;
+	vector<int> isVisited, entryTime, exitTime;
+	vector<vector<int>> bridges;
+	int n;
+	int timer;
+
+	void build(vector<vector<int>>& edges){
+		for(int i = 0; i < edges.size(); ++i){
+			adjacency_list[edges[i][0]].push_back(edges[i][1]);
+			adjacency_list[edges[i][1]].push_back(edges[i][0]);
+		}
+	}
+
+	void dfs(int u,int p = -1){
+		isVisited[u] = true;
+		entryTime[u] = exitTime[u] = timer++;
+		bool parent_skipped = false;
+
+		for(auto v : adjacency_list[u]) {
+			if(v == p && !parent_skipped){
+				parent_skipped = 1;
+				continue;
+			}
+			if(isVisited[v]){
+				exitTime[u] = min(exitTime[u], exitTime[v]);
+			}
+			else{
+				dfs(v, u);
+				exitTime[u] = min(exitTime[u], exitTime[v]);
+				if(exitTime[v] > exitTime[u]){
+					bridges.push_back({u, v});
+				}
+			}
+
+		}
+	}
+
+public:
+	Forest(vector<vector<int>>&edges, int numberOfNodes){
+		int n = numberOfNodes;
+		timer = 0;
+		adjacency_list.resize(n + 1);
+		isVisited.resize(n + 1);
+		entryTime.resize(n + 1);
+		exitTime.resize(n + 1);
+
+		build(edges);
+	}
+
+	vector<vector<int>> find_bridges(){
+		dfs(1, -1);
+		return bridges;
+	}
+};
+
+
+int main(){
+	int n, m;
+	cin >> n >> m;
+	vector<vector<int>> edges;
+	for(int i = 0; i < m; ++i){
+		int x, y;
+		cin >> x >> y;
+		edges.push_back({x, y});
+	}
+
+	Forest graph(edges, n);
+	vector<vector<int>> bridges = graph.find_bridges();
+
+	for(int i = 0; i < bridges.size(); ++i){
+		cout<<bridges[i][0]<<" "<<bridges[i][1]<<endl;
+	}
+	return 0;	
+}

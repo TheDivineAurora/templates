@@ -31,9 +31,12 @@ int divide(int x, int y)
 }
 
 int ncr(int n,int r){
-  int prod = 1;
-  for(int i = 1; i<=r; ++i){
-    prod = mul(prod,divide(n-r+i,i));
-  }
-  return prod;
+    if(r == 0 || r == n) return 1;
+
+    r = min(r, n - r);
+    int prod = 1;
+    for(int i = 1; i<=r; ++i){
+        prod = mul(prod,divide(n-r+i,i));
+    }
+    return prod;
 }
