@@ -4,7 +4,7 @@ using namespace std;
 #define ld long double
 using pii = pair<ll,ll>;
 
-const int N = 1e2+6;
+const int N = 1e6+6;
 vector<int> sieve(N,0);
 void SIEVE(){
   for(int i = 2 ; i<=N; ++i){
