@@ -41,7 +41,7 @@ public:
     int query(int l, int r) {
         return query(1, 0, n - 1, l, r);
     }
-    int update(int l, int r, int val){
+    void update(int l, int r, int val){
         upd(1, 0, n - 1, l, r, val);
     }
 };

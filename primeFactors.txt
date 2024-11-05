@@ -1,56 +1,22 @@
-#include <bits/stdc++.h>
-using namespace std;
-#define ll long long
-#define ld long double
-using pii = pair<ll,ll>;
-
-const int N = 1e6+6;
-vector<int> sieve(N,0);
+vector<int> sieve(N + 5,0);
 void SIEVE(){
-  for(int i = 2 ; i<=N; ++i){
-    if(sieve[i]) continue;
-    sieve[i]=i;
-    for(int j = i*i ; j<=N; j+=i){
-       if(!sieve[j]) sieve[j] = i;
+  for(int i = 2 ; i <= N; ++i){
+        if(sieve[i]) continue;
+        sieve[i]=i;
+        for(int j = i * i ; j <= N; j += i){
+            if(!sieve[j]) sieve[j] = i;
+        }
     }
-  }
 }
 
 vector<int> primeFactors(int n){
-  vector<int> pf;
-  while(n!=1){
-    int f = sieve[n];
-    while(n%f==0){
-           n = n/f;
+    vector<int> pf;
+    while(n != 1){
+        int f = sieve[n];
+        while(n % f==0){
+            n = n/f;
+        }
+        pf.push_back(f);
     }
-    pf.push_back(f);
-  }
     return pf;
 }
-void solve(){
-  SIEVE();
-
-
-}
-  
-int main(){
-  ios_base::sync_with_stdio(false);
-  cin.tie(NULL);
-  
-   ll t; cin>>t;
-   for (ll i = 1; i <=t; ++i)
-   {
-      solve();
-   }
-}
- 
-//
- 
-// ll n;
-// cin>>n;
-// vector<ll> v(n);
-// for(ll i = 0  ; i<n ; ++i){
-//   cin>>v[i];
-// }
- 
-//

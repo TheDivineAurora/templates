@@ -55,3 +55,4 @@ public:
         update(1, 0, n - 1, l, r, val);
     }
 };
+// update operation adds and does not replace, so be careful

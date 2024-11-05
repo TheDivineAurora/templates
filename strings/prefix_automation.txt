@@ -1,0 +1,31 @@
+vector<int> prefix_function(string s) {
+    vector<int> pi(s.size());
+    pi[0] = 0;
+    for(int i = 1; i < s.size(); ++i){
+        int j = pi[i - 1];
+        // we are starting with j = pi[i - 1]
+        // and checkign if we can get p[i - 1] + 1 or not
+        // if no that means we cant get p[i - 1] + 1
+
+        // now what? use p[j - 1]
+        // because what else can u do
+        // u need to find second largest prefix u can construct with Si-1
+        // where will u bring that value from?
+        // simple , it is pi[pi[j - 1] - 1]
+        // u can keep doing it until u cant attach Si to some prefix
+        // and take that prefix length + 1 as our p[i]
+        // xxxxxxxxxxx
+        //     xxxxxxx
+        //        xxxx
+        //          xx 
+        // visualization 
+        while(j > 0 && s[i] != s[j]){
+            j = pi[j - 1];
+        }
+        if(s[j] == s[i]){
+            j++;
+        }
+        pi[i] = j;
+    }
+    return pi;
+}

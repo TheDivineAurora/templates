@@ -1,0 +1,26 @@
+struct RMQ {
+    vector<vector<int>> table;
+    void build(vector<int>&v){
+        int n = v.size();
+        table.assign(n, vector<int>(20, -1e9));
+
+        for(int i = 0; i < n; ++i){
+            table[i][0] = v[i];
+        }
+
+        for(int j = 1; j < 20; ++j){
+            for(int i = 0; i + (1 << j) - 1 < n; ++i){
+                table[i][j] = max(table[i][j - 1], table[i + (1LL << (j - 1))][j - 1]);
+            }
+        }
+    }
+
+    int query(int l, int r){
+        int d = r - l + 1;
+        int k = 31 - __builtin_clz(d);
+        return max(table[l][k], table[r - (1LL << k) + 1][k]);
+    }
+    RMQ(vector<int>&v){
+        build(v);
+    }
+};
